@@ -24,14 +24,3 @@ variable "azure_region" {
     "secondary" = "East US"
   }
 }
-
-variable "tfbackend" {
-  description = "Terraform remote state storage account details"
-  type        = map(string)
-  default = {
-    "resource_group_name"  = "m11hghtftestrg"
-    "storage_account_name" = "m11hghtftest"
-    "container_name"       = "m11hghtftesttfstate"
-    "key"                  = "m11hghtftesttfstate.tfstate"
-  }
-}

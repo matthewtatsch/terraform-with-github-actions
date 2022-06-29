@@ -1,9 +1,9 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = var.tfbackend["resource_group_name"]
-    storage_account_name = var.tfbackend["storage_account_name"]
-    container_name       = var.tfbackend["container_name"]
-    key                  = var.tfbackend["key"]
+    resource_group_name  = "m11hghtftestrg"
+    storage_account_name = "m11hghtftest"
+    container_name       = "m11hghtftesttfstate"
+    key                  = "m11hghtftesttfstate.tfstate"
   }
 }
 
