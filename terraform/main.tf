@@ -1,4 +1,10 @@
 terraform {
+  required_providers {
+    azurerm = {
+        source = "hashicorp/azurerm"
+        version = "~>3.0"
+    }
+  }
   backend "azurerm" {
     resource_group_name  = "m11hghtftestrg"
     storage_account_name = "m11hghtftest"
@@ -8,9 +14,6 @@ terraform {
 }
 
 provider "azurerm" {
-  # The "feature" block is required for AzureRM provider 2.x.
-  # If you're using version 1.x, the "features" block is not allowed.
-  version = "~>3.0"
   features {}
 }
 
