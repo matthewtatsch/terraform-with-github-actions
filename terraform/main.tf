@@ -23,4 +23,5 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "main_rg" {
   name     = "${var.project_name}${var.abbreviations["resource_group"]}"
   location = var.azure_region["primary"]
+  tags     = var.default_tags
 }

@@ -10,10 +10,11 @@ variable "abbreviations" {
   }
 }
 
-variable "tags" {
+variable "default_tags" {
   type = map(string)
   default = {
     "environment" = "non-production"
+    "created-by"  = "terraform"
   }
 }
 
