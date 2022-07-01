@@ -14,7 +14,7 @@ on:
  
 jobs:
   validate-and-plan:
-    name: 'Validate and plan Terraform infrastructure'
+    name: 'Validate and Plan Terraform infrastructure'
     env:
       ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
@@ -27,6 +27,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./terraform
  
     steps:
     # Checkout the repository to the GitHub Actions runner
