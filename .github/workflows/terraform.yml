@@ -33,9 +33,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2 
 
-    - name: 'Terraform format'
-    
-    - uses: hashicorp/setup-terraform@v2
+    - name: 'Terraform setup'
+      uses: hashicorp/setup-terraform@v2
     
     - run: terraform fmt
 
