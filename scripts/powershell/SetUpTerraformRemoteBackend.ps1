@@ -34,17 +34,17 @@ Add the following to your GitHub project as actions secrets:
 
     Secret Name                Secret Value
     -----------                ------------
-    TF_AZ_TENANT_ID            $tenant
-    TF_AZ_SUBSCRIPTION_ID      $SUBSCRIPTION_ID
-    TF_AZ_CLIENT_ID            $spId
-    TF_AZ_CLIENT_SECRET        $spSecret
+    TF_AZ_TENANT_ID            ${tenant}
+    TF_AZ_SUBSCRIPTION_ID      ${SUBSCRIPTION_ID}
+    TF_AZ_CLIENT_ID            ${spId}
+    TF_AZ_CLIENT_SECRET        ${spSecret}
     
 Add the following to the terraform.backend block within your main.tf file:
 
-    resource_group_name  = "$RESOURCE_GROUP_NAME"
-    storage_account_name = "$STORAGE_ACCONT_NAME"
-    container_name       = "$CONTAINER_NAME"
-    key                  = "$CONTAINER_NAME".tfstate"
+    resource_group_name  = "${RESOURCE_GROUP_NAME}"
+    storage_account_name = "${STORAGE_ACCONT_NAME}"
+    container_name       = "${CONTAINER_NAME}"
+    key                  = "${CONTAINER_NAME}".tfstate"
 "@
 
 Write-Host $displayMessage
