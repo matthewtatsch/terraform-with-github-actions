@@ -51,4 +51,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./terraform
+
+    steps:
+    - run: terraform apply
     
