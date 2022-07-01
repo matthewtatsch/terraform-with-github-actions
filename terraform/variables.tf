@@ -1,6 +1,6 @@
 variable "project_name" {
   type = string
-  default = "m11hsbx5"
+  default = "m11hsbx6"
 }
 
 variable "abbreviations" {
