@@ -34,10 +34,10 @@ Add the following to your GitHub project as actions secrets:
 
     Secret Name                Secret Value
     -----------                ------------
-    TF_AZ_TENANT_ID            ${tenant}
-    TF_AZ_SUBSCRIPTION_ID      ${SUBSCRIPTION_ID}
-    TF_AZ_CLIENT_ID            ${spId}
-    TF_AZ_CLIENT_SECRET        ${spSecret}
+    AZ_TENANT_ID               ${tenant}
+    AZ_SUBSCRIPTION_ID         ${SUBSCRIPTION_ID}
+    AZ_TF_CLIENT_ID            ${spId}
+    AZ_TF_CLIENT_SECRET        ${spSecret}
     
 Add the following to the terraform.backend block within your main.tf file:
 
