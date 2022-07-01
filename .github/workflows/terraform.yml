@@ -14,7 +14,7 @@ on:
  
 jobs:
   validate-and-plan:
-    name: 'Validate and Plan'
+    name: Validate and Plan
     env:
       ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
@@ -34,12 +34,23 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2 
 
-    - name: 'Terraform setup'
+    - name: Terraform setup
       uses: hashicorp/setup-terraform@v2
     
-    - run: terraform fmt
-    - run: terraform init
-    - run: terraform plan
+    - run: formatCheck=$(terraform fmt -check)
+    - run:
+        if ! test -z "$formatCheck"; then 
+        echo -e "Run terraform fmt to format\n$formatCheck";
+        exit 1;
+        fi
+    - run: terraform init -input=false
+    - run: terraform plan -out=tfplan -input=false
+
+    - name: Upload Terraform plan
+      uses: actions/upload-artifact@v3
+      with:
+        name: tfplan
+        path: tfplan
 
   apply:
     name: 'Apply'
@@ -60,6 +71,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2 
+    
+    - name: Download Terraform plan
+      uses: actions/download-artifact@v3
+      with:
+        name: tfplan
 
     - name: 'Terraform setup'
       uses: hashicorp/setup-terraform@v2
