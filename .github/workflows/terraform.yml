@@ -38,6 +38,7 @@ jobs:
       uses: hashicorp/setup-terraform@v2
     
     - run: terraform fmt
+    - run: terraform init
     - run: terraform plan
 
     # - name: 'Terraform Format'
