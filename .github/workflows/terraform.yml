@@ -37,6 +37,7 @@ jobs:
       uses: hashicorp/setup-terraform@v2
     
     - run: terraform fmt
+    - run: terraform plan
 
     # - name: 'Terraform Format'
     #   uses: hashicorp/terraform-github-actions@master
