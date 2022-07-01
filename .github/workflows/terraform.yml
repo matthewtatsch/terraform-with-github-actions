@@ -37,7 +37,7 @@ jobs:
     - name: Terraform setup
       uses: hashicorp/setup-terraform@v2
     
-    - run: echo "FORMAT_CHECK=$(terraform fmt -check)"" >> $GITHUB_ENV
+    - run: echo "FORMAT_CHECK=$(terraform fmt -check)" >> $GITHUB_ENV
     - run:
         if ! test -z "$FORMAT_CHECK"; then 
         echo -e "Run terraform fmt to format\n$FORMAT_CHECK";
