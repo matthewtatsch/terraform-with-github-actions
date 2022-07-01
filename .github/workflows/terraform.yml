@@ -7,17 +7,21 @@ on:
     branches:
     - main
   pull_request:
+    paths:
+    - terraform/**
+    branches:
+    - main
  
 jobs:
-  terraform:
-    name: 'Terraform'
+  validate-and-plan:
+    name: 'Validate and plan Terraform infrastructure'
     env:
+      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.AZ_TF_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZ_TF_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
     runs-on: ubuntu-latest
-    environment: production
+    # environment: production
  
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -29,38 +33,42 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2 
 
-    - name: 'Terraform Format'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'fmt'
-        tf_actions_working_dir: "./terraform"
+    - name: 'Terraform format'
+      uses: hashicorp/setup-terraform@v2
+      run: terraform fmt
+
+    # - name: 'Terraform Format'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'fmt'
+    #     tf_actions_working_dir: "./terraform"
          
-    - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: "./terraform"
+    # - name: 'Terraform Init'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'init'
+    #     tf_actions_working_dir: "./terraform"
  
-    - name: 'Terraform Validate'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'validate'
-        tf_actions_working_dir: "./terraform"
+    # - name: 'Terraform Validate'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'validate'
+    #     tf_actions_working_dir: "./terraform"
          
-    - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./terraform"
+    # - name: 'Terraform Plan'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: "./terraform"
  
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'apply'
-        tf_actions_working_dir: "./terraform"
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'apply'
+    #     tf_actions_working_dir: "./terraform"
