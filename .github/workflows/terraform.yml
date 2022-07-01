@@ -64,5 +64,6 @@ jobs:
     - name: 'Terraform setup'
       uses: hashicorp/setup-terraform@v2
 
+    - run: terraform init
     - run: terraform apply
     
