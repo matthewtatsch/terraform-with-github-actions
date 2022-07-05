@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     # environment: production
  
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
@@ -34,18 +33,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2 
 
+    # Set up Terraform
     - name: Terraform setup
       uses: hashicorp/setup-terraform@v2
     
-    - run: echo "FORMAT_CHECK=$(terraform fmt -check)" >> $GITHUB_ENV
-    - run:
-        if ! test -z "$FORMAT_CHECK"; then 
-        echo -e "Run terraform fmt to format\n$FORMAT_CHECK";
-        exit 1;
-        fi
+    # Initialize Terraform and generate plan
     - run: terraform init -input=false
     - run: terraform plan -out=tfplan -input=false
 
+    # Upload Terraform plan to artifacts (to be used in apply job)
     - name: Upload Terraform plan
       uses: actions/upload-artifact@v3
       with:
@@ -53,7 +49,7 @@ jobs:
         path: tfplan
 
   apply:
-    name: 'Apply'
+    name: Apply
     needs: [validate-and-plan]
     env:
       ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
@@ -72,6 +68,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2 
     
+    # Download previously-generated plan file from artifacts
     - name: Download Terraform plan
       uses: actions/download-artifact@v3
       with:
@@ -80,6 +77,7 @@ jobs:
     - name: 'Terraform setup'
       uses: hashicorp/setup-terraform@v2
 
+    # Initialize Terraform and apply changes based on plan file
     - run: terraform init
-    - run: terraform apply
+    - run: terraform apply -input=false tfplan
     
