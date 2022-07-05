@@ -50,36 +50,37 @@ jobs:
 
     - run: ls -a
 
-  # apply:
-  #   name: Apply
-  #   needs: [validate-and-plan]
-  #   env:
-  #     ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
-  #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
-  #     ARM_CLIENT_ID: ${{ secrets.AZ_TF_CLIENT_ID }}
-  #     ARM_CLIENT_SECRET: ${{ secrets.AZ_TF_CLIENT_SECRET }}
-  #   runs-on: ubuntu-latest
-  #   environment: production
+  apply:
+    name: Apply
+    needs: [validate-and-plan]
+    env:
+      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.AZ_TF_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZ_TF_CLIENT_SECRET }}
+    runs-on: ubuntu-latest
+    environment: production
 
-  #   defaults:
-  #     run:
-  #       shell: bash
-  #       working-directory: ./terraform
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
 
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v2 
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2 
     
-  #   # Download previously-generated plan file from artifacts
-  #   - name: Download Terraform plan
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: tfplan
+    # Download previously-generated plan file from artifacts
+    - name: Download Terraform plan
+      uses: actions/download-artifact@v3
+      with:
+        name: tfplan
+        path: ./terraform/tfplan
 
-  #   - name: 'Terraform setup'
-  #     uses: hashicorp/setup-terraform@v2
+    - name: 'Terraform setup'
+      uses: hashicorp/setup-terraform@v2
 
-  #   # Initialize Terraform and apply changes based on plan file
-  #   - run: terraform init
-  #   - run: terraform apply -input=false tfplan
+    # Initialize Terraform and apply changes based on plan file
+    - run: terraform init
+    - run: terraform apply -input=false tfplan
     
