@@ -1,0 +1,38 @@
+name: 'Terraform'
+ 
+on:
+  push:
+    paths:
+    - terraform/**
+    branches:
+    - feature/**
+ 
+jobs:
+  validate-and-plan:
+    name: Validate and Plan
+    env:
+      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.AZ_TF_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZ_TF_CLIENT_SECRET }}
+    runs-on: ubuntu-latest
+    # environment: production
+ 
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+ 
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2 
+
+    # Set up Terraform
+    - name: Terraform setup
+      uses: hashicorp/setup-terraform@v2
+    
+    # Initialize Terraform and generate plan
+    - run: terraform init -input=false
+    - run: terraform plan -input=false
+    

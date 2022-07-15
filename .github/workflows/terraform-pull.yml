@@ -1,11 +1,6 @@
 name: 'Terraform'
  
 on:
-  push:
-    paths:
-    - terraform/**
-    branches:
-    - main
   pull_request:
     paths:
     - terraform/**
@@ -38,7 +33,7 @@ jobs:
       uses: hashicorp/setup-terraform@v2
     
     # Initialize Terraform and generate plan
-    - run: terraform init
+    - run: terraform init -input=false
     - run: terraform plan -input=false -out=tfplan
 
     # Upload Terraform plan to artifacts (to be used in apply job)
@@ -79,6 +74,6 @@ jobs:
       uses: hashicorp/setup-terraform@v2
 
     # Initialize Terraform and apply changes based on plan file
-    - run: terraform init
+    - run: terraform init -input=false
     - run: terraform apply -input=false tfplan
     
