@@ -1,5 +1,5 @@
 # Function to load and install necessary modules
-function Load-Module ($m) {
+function Get-RequiredModule ($m) {
 
     # If module is imported say that and do nothing
     if (Get-Module | Where-Object {$_.Name -eq $m}) {
@@ -32,7 +32,7 @@ function Load-Module ($m) {
 $required_modules = "Az.Accounts", "Az.Resources", "Az.Storage"
 
 # Check if required modules are installed/loaded, and if not then install / load
-for($i=0; $i -lt $required_modules.Length; $i++) {Load-Module($required_modules[$i])}
+for($i=0; $i -lt $required_modules.Length; $i++) {Get-RequiredModule($required_modules[$i])}
 
 # Capture project details from user
 $SUBSCRIPTION_ID = Read-Host "Enter the Azure Subscription ID where you want to create your resources:"
