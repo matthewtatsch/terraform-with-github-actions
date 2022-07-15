@@ -1,38 +1,4 @@
-# Function to load and install necessary modules
-function Get-RequiredModule ($m) {
-
-    # If module is imported say that and do nothing
-    if (Get-Module | Where-Object {$_.Name -eq $m}) {
-        write-host "Module $m is already imported."
-    }
-    else {
-
-        # If module is not imported, but available on disk then import
-        if (Get-Module -ListAvailable | Where-Object {$_.Name -eq $m}) {
-            Import-Module $m -Verbose
-        }
-        else {
-
-            # If module is not imported, not available on disk, but is in online gallery then install and import
-            if (Find-Module -Name $m | Where-Object {$_.Name -eq $m}) {
-                Install-Module -Name $m -Force -Verbose -Scope CurrentUser
-                Import-Module $m -Verbose
-            }
-            else {
-
-                # If module is not imported, not available and not in online gallery then abort
-                write-host "Module $m not imported, not available and not in online gallery, exiting."
-                EXIT 1
-            }
-        }
-    }
-}
-
-# Array of required modules
-$required_modules = "Az.Accounts", "Az.Resources", "Az.Storage"
-
-# Check if required modules are installed/loaded, and if not then install / load
-for($i=0; $i -lt $required_modules.Length; $i++) {Get-RequiredModule($required_modules[$i])}
+#Requires -Modules Az.Accounts, Az.Resources, Az.Storage
 
 # Capture project details from user
 $SUBSCRIPTION_ID = Read-Host "Enter the Azure Subscription ID where you want to create your resources:"
